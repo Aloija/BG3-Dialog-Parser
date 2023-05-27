@@ -564,28 +564,28 @@ def print_dialog(root_nodes_uuid, dialog_nodes):
 def write_dialog(root_nodes_uuid, dialog_nodes):
     visited_nodes = set()
 
-    w_file = open(write_file + '.txt', 'w', encoding="utf-8")
+    with open(write_file + '.txt', 'w', encoding="utf-8") as w_file:
 
-    def dfs(node_uuid):
-        node = dialog_nodes[node_uuid]
-        node.print_line()
-        line = node.full_line
-        w_file.write(line)
-        if node.is_end is True:
-            w_file.write("\nEnd")
-        if node_uuid in visited_nodes:
-            return
-        visited_nodes.add(node_uuid)
+        def dfs(node_uuid):
+            node = dialog_nodes[node_uuid]
+            node.print_line()
+            line = node.full_line
+            w_file.write(line)
+            if node.is_end is True:
+                w_file.write("\nEnd")
+            if node_uuid in visited_nodes:
+                return
+            visited_nodes.add(node_uuid)
 
-        if node.children is not None:
-            for child_uuid in node.children:
-                dfs(child_uuid)
-        else:
-            w_file.write("\n------------------\n")
+            if node.children is not None:
+                for child_uuid in node.children:
+                    dfs(child_uuid)
+            else:
+                w_file.write("\n------------------\n")
 
-    for root_uuid in root_nodes_uuid:
-        w_file.write("Start")
-        dfs(root_uuid)
+        for root_uuid in root_nodes_uuid:
+            w_file.write("Start")
+            dfs(root_uuid)
 
 
 get_class_tag_dict()
@@ -609,11 +609,3 @@ set_dialog_node_attributes()
 write_dialog(root_nodes_uuid, dialog_nodes_dict)
 
 
-
-''''
-проверка роллов
-constructor = ActiveRoll
-constructor = RollResult, Success = true/false
-
-переделать словарь лайнов в классы
-'''''
