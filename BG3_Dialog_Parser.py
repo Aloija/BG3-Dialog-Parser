@@ -2,16 +2,27 @@ import json
 import xml.etree.cElementTree as ET
 import os.path
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--loc-file', help='full path to the localization file (x/x/x/english.xml)', required=True)  
+parser.add_argument('--unpack-dir', help='full path to the UnpackedData folder (Gustav and Shared should be unpacked)', required=True)
+parser.add_argument('--dialog-file', help = 'full paths to the dialog file (x/x/x/dialog.lsj)', required=True)
+
+args = parser.parse_args()
+# print(args)
+
 # Main files
-localization_input = input('full path to the localization file (x/x/x/english.xml)')
-dialog_file_input = input('full path to the dialog file (x/x/x/dialog.lsj)')
-unpacked_data = input('full path to the UnpackedData folder (Gustav and Shared should be unpacked)')
+localization_input = args.loc_file
+dialog_file_input = args.dialog_file
+unpacked_data = args.unpack_dir
 
 localization = ET.parse(localization_input)
 dialog_file = json.load(open(dialog_file_input))
+print("Dialog file size ", len(dialog_file))
 
 write_file = dialog_file_input.split("\\")[-1].split(".")[0]
-
+print("write file: ", write_file)
 
 tav_handle = 'e0d1ff71-04a8-4340-ae64-9684d846eb83'
 companions = {'3780c689-d903-41c2-bf64-1e6ec6a8e1e5': 'Astarion', '35c3caad-5543-4593-be75-e7deba30f062': 'Gale',
@@ -564,26 +575,31 @@ def print_dialog(root_nodes_uuid, dialog_nodes):
 def write_dialog(root_nodes_uuid, dialog_nodes):
     visited_nodes = set()
 
-    with open(write_file + '.txt', 'w', encoding="utf-8") as w_file:
+    print("root nodes size: ", len(root_nodes_uuid))
+    print("dialog nodes size: ", len(dialog_nodes))
 
-        def dfs(node_uuid):
-            node = dialog_nodes[node_uuid]
-            node.print_line()
-            line = node.full_line
-            w_file.write(line)
-            if node.is_end is True:
-                w_file.write("\nEnd")
-            if node_uuid in visited_nodes:
-                return
-            visited_nodes.add(node_uuid)
+    w_file_name = write_file + '.txt'
 
-            if node.children is not None:
-                for child_uuid in node.children:
-                    dfs(child_uuid)
-            else:
-                w_file.write("\n------------------\n")
+    def dfs(node_uuid):
+        node = dialog_nodes[node_uuid]
+        node.print_line()
+        line = node.full_line
+        w_file.write(line)
+        if node.is_end is True:
+            w_file.write("\nEnd")
+        if node_uuid in visited_nodes:
+            return
+        visited_nodes.add(node_uuid)
 
-        for root_uuid in root_nodes_uuid:
+        if node.children is not None:
+            for child_uuid in node.children:
+                dfs(child_uuid)
+        else:
+            w_file.write("\n------------------\n")
+
+    with open(w_file_name, 'w', encoding="utf-8") as w_file:
+        for i, root_uuid in enumerate(root_nodes_uuid):
+            print("processing node ", i)
             w_file.write("Start")
             dfs(root_uuid)
 
@@ -609,3 +625,11 @@ set_dialog_node_attributes()
 write_dialog(root_nodes_uuid, dialog_nodes_dict)
 
 
+
+''''
+проверка роллов
+constructor = ActiveRoll
+constructor = RollResult, Success = true/false
+
+переделать словарь лайнов в классы
+'''''

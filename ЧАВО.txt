@@ -1,0 +1,16 @@
+0. При переносе скрипта/файлов игры на новое место:
+	в BG3_Dialog_Parser.bat поменять пути файла локализации (сейчас D:\Games\BG3 Datamining\english.xml) и распакованных файлов (сейчас D:\Games\BG3 Datamining\.Modders multitool 0.8.3\UnpackedData)
+	
+
+1. Записать в файл files.txt пути конвертируемых файлов, по файлу на строчке, в формате:
+"D:\Games\BG3 Datamining\.Modders multitool 0.8.3\UnpackedData\Gustav\Mods\Gustav\Story\Dialogs\Camp\Campfire_Moments\CAMP_HalsinsReturn_CFM.lsj"
+	можно получить путь в правильном формате, если на выделенный файл нажать Shift+rightclick > "Копировать как путь"
+	Если выделить несколько файлов, то ALT+SHIFT+rightclick > "Копировать как путь"
+	В том числе если выполнить поиск в папке по расширению, чтобы получить все файлы в подпапках.
+
+2. Открыть командную строку.
+
+2a. Пройти в папку, в которой лежит скрипт, и запустить файл .bat
+d:
+cd "D:\Games\BG3 Datamining\!BG3_Dialog_Parser"
+BG3_Dialog_Parser.bat

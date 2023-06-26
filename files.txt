@@ -1,0 +1,2 @@
+"D:\Games\BG3 Datamining\.Modders multitool 0.8.3\UnpackedData\Gustav\Mods\Gustav\Story\Dialogs\Camp\Campfire_Moments\CAMP_HalsinsReturn_CFM.lsj"
+"D:\Games\BG3 Datamining\.Modders multitool 0.8.3\UnpackedData\Gustav\Mods\Gustav\Story\Dialogs\Companions\Wyll_Recruitment.lsj"
